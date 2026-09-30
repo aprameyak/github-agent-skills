@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/aprameyak/github-agent-skills/schemas/findings.schema.json",
+  "title": "FindingsReport",
+  "type": "object",
+  "required": ["generated_at", "viewer_login", "skill", "findings"],
+  "properties": {
+    "generated_at": { "type": "string" },
+    "viewer_login": { "type": "string" },
+    "skill": { "type": "string" },
+    "summary": { "type": "object" },
+    "meta": { "type": "object" },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "category",
+          "severity",
+          "confidence",
+          "title",
+          "explanation",
+          "evidence",
+          "risk"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "category": {
+            "type": "string",
+            "enum": [
+              "profile",
+              "presentation",
+              "cleanup",
+              "documentation",
+              "attention",
+              "security",
+              "activity",
+              "consistency",
+              "other"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["info", "suggestion", "attention", "urgent"]
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          },
+          "title": { "type": "string" },
+          "explanation": { "type": "string" },
+          "evidence": { "type": "object" },
+          "recommended_action": { "type": ["string", "null"] },
+          "risk": {
+            "type": "string",
+            "enum": ["read_only", "low", "medium", "high", "forbidden"]
+          },
+          "repository": { "type": ["string", "null"] },
+          "heuristic": { "type": "boolean" },
+          "tags": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/aprameyak/github-agent-skills/schemas/account.schema.json",
+  "title": "AccountSnapshot",
+  "type": "object",
+  "required": ["collected_at", "viewer_login", "profile", "repositories"],
+  "properties": {
+    "collected_at": { "type": "string" },
+    "viewer_login": { "type": "string" },
+    "profile": {
+      "type": "object",
+      "required": ["login"],
+      "properties": {
+        "login": { "type": "string" },
+        "name": { "type": ["string", "null"] },
+        "bio": { "type": ["string", "null"] },
+        "company": { "type": ["string", "null"] },
+        "location": { "type": ["string", "null"] },
+        "blog": { "type": ["string", "null"] },
+        "profile_readme": { "type": ["boolean", "null"] },
+        "public_repos": { "type": "integer" },
+        "followers": { "type": "integer" },
+        "following": { "type": "integer" }
+      }
+    },
+    "repositories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "full_name"],
+        "properties": {
+          "name": { "type": "string" },
+          "full_name": { "type": "string" },
+          "private": { "type": "boolean" },
+          "fork": { "type": "boolean" },
+          "archived": { "type": "boolean" },
+          "description": { "type": ["string", "null"] },
+          "homepage": { "type": ["string", "null"] },
+          "topics": { "type": "array", "items": { "type": "string" } },
+          "language": { "type": ["string", "null"] },
+          "size": { "type": "integer" },
+          "pushed_at": { "type": ["string", "null"] },
+          "has_readme": { "type": ["boolean", "null"] },
+          "workflow_conclusion": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "pull_requests": { "type": "array" },
+    "issues": { "type": "array" },
+    "workflow_runs": { "type": "array" },
+    "activity": { "type": "array" },
+    "warnings": { "type": "array" },
+    "meta": { "type": "object" }
+  }
+}
