@@ -4,16 +4,7 @@ You can add skills without rewriting the core.
 
 ## 1. Pick a job
 
-Examples of future skills:
-
-- `github-actions`
-- `github-security`
-- `github-docs`
-- `github-releases`
-- `github-issues`
-- `github-open-source`
-- `github-stars`
-- `github-organizations`
+Choose a clear user job that reuses (or narrowly extends) existing collectors and analyzers.
 
 ## 2. Prefer shared data
 

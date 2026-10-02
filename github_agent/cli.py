@@ -140,9 +140,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_checkup.add_argument("--quiet", action="store_true")
     p_checkup.set_defaults(func=cmd_checkup)
 
-    p_cleanup = sub.add_parser(
-        "cleanup", parents=[common], help="Conservative cleanup candidates."
-    )
+    p_cleanup = sub.add_parser("cleanup", parents=[common], help="Conservative cleanup candidates.")
     p_cleanup.add_argument("--snapshot", type=Path)
     p_cleanup.add_argument("--quiet", action="store_true")
     p_cleanup.set_defaults(func=cmd_cleanup)

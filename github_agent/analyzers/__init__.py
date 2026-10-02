@@ -373,7 +373,11 @@ def analyze_cleanup(snapshot: AccountSnapshot, *, now: datetime) -> list[Finding
             left, right = repo.name.lower(), other.name.lower()
             if right.startswith((left + "-", left + "_")):
                 suffix = right[len(left) + 1 :]
-                if re.fullmatch(r"(?:v?\d+|final|copy|new|old|backup|test|wip)(?:[-_].+)?", suffix, re.IGNORECASE):
+                if re.fullmatch(
+                    r"(?:v?\d+|final|copy|new|old|backup|test|wip)(?:[-_].+)?",
+                    suffix,
+                    re.IGNORECASE,
+                ):
                     groups[left].add(repo.name)
                     groups[left].add(other.name)
 
@@ -452,7 +456,10 @@ def analyze_cleanup(snapshot: AccountSnapshot, *, now: datetime) -> list[Finding
                     "Archived projects are read-only. They still appear on your profile "
                     "unless you pin other repositories or organize them carefully."
                 ),
-                evidence={"count": len(archived_visible), "names": [r.name for r in archived_visible[:20]]},
+                evidence={
+                    "count": len(archived_visible),
+                    "names": [r.name for r in archived_visible[:20]],
+                },
                 recommended_action="review_archived",
                 risk="read_only",
                 tags=["archived"],
@@ -626,7 +633,8 @@ def build_recap(
         {
             r.language
             for r in snapshot.repositories
-            if r.language and any(
+            if r.language
+            and any(
                 event.repository == r.full_name or (event.repository or "").endswith("/" + r.name)
                 for event in events
             )
@@ -637,7 +645,9 @@ def build_recap(
         "period_days": since_days,
         "events_counted": len(events),
         "repositories_touched": sorted(repos_touched.keys(), key=lambda k: (-repos_touched[k], k)),
-        "repository_touch_counts": dict(sorted(repos_touched.items(), key=lambda kv: (-kv[1], kv[0]))),
+        "repository_touch_counts": dict(
+            sorted(repos_touched.items(), key=lambda kv: (-kv[1], kv[0]))
+        ),
         "commits_pushed_estimate": commits,
         "pull_requests_opened": prs_opened,
         "issues_opened": issues_opened,
@@ -654,7 +664,9 @@ def build_recap(
     highlights = []
     if facts["repositories_touched"]:
         top = facts["repositories_touched"][:5]
-        highlights.append(f"You touched {len(facts['repositories_touched'])} repositories, including {', '.join(t.split('/')[-1] for t in top)}.")
+        highlights.append(
+            f"You touched {len(facts['repositories_touched'])} repositories, including {', '.join(t.split('/')[-1] for t in top)}."
+        )
     if commits:
         highlights.append(f"You pushed about {commits} commit(s) (from activity events).")
     if prs_opened:

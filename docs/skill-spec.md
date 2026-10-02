@@ -36,11 +36,11 @@ Every skill should declare (in docs or the skill body):
 
 ## Agent install locations
 
-| Agent | Verified? | User skills directory |
-| --- | --- | --- |
-| Claude Code | Yes (official SKILL.md docs + local CLI present) | `~/.claude/skills/` |
-| Cursor | Yes (official Cursor skill format) | `~/.cursor/skills/` |
-| OpenAI Codex CLI | Documented support for Agent Skills; CLI not installed in release environment | `~/.agents/skills/` |
-| Gemini CLI | Documented support for Agent Skills / `.gemini/skills`; CLI not installed in release environment | `~/.gemini/skills/` |
+| Agent | Skills directory |
+| --- | --- |
+| Claude Code | `~/.claude/skills/` |
+| Cursor | `~/.cursor/skills/` |
+| OpenAI Codex CLI | `~/.agents/skills/` |
+| Gemini CLI | `~/.gemini/skills/` |
 
-`./install.sh` can symlink/copy into these locations.
+`./install.sh` can symlink or copy into these locations.

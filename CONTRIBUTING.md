@@ -10,6 +10,7 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 github-agent --version
 ruff check .
+ruff format --check .
 pytest
 ```
 

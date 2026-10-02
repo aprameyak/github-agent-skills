@@ -95,7 +95,14 @@ def api(
     input_json: Any | None = None,
     timeout: int = 180,
 ) -> Any:
-    if method == "GET" and paginate and jq is None and fields is None and raw_fields is None and input_json is None:
+    if (
+        method == "GET"
+        and paginate
+        and jq is None
+        and fields is None
+        and raw_fields is None
+        and input_json is None
+    ):
         return _api_paginate(path, timeout=timeout)
 
     args = ["api", path, "--method", method]
@@ -209,4 +216,6 @@ def current_username() -> str:
     data = run_gh_json(["api", "user", "--jq", "{login:.login}"])
     if isinstance(data, dict) and data.get("login"):
         return str(data["login"])
-    raise GhError("Unable to determine authenticated GitHub username", command=["gh", "api", "user"])
+    raise GhError(
+        "Unable to determine authenticated GitHub username", command=["gh", "api", "user"]
+    )

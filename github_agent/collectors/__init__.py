@@ -191,11 +191,9 @@ def _enrich_readmes(
     max_checks: int,
     warnings: list[CollectionWarning],
 ) -> None:
-    candidates = [
-        r
-        for r in repositories
-        if not r.archived and not r.fork and r.size > 0
-    ][:max_checks]
+    candidates = [r for r in repositories if not r.archived and not r.fork and r.size > 0][
+        :max_checks
+    ]
     # Also check empty-looking repos (size 0) up to a small budget
     empties = [r for r in repositories if not r.archived and r.size == 0][:10]
     seen = {r.full_name for r in candidates}
@@ -220,17 +218,13 @@ def _collect_workflow_failures(
     warnings: list[CollectionWarning],
 ) -> list[WorkflowRunSummary]:
     runs: list[WorkflowRunSummary] = []
-    candidates = [
-        r
-        for r in repositories
-        if not r.archived and not r.fork and r.size > 0
-    ][:max_checks]
+    candidates = [r for r in repositories if not r.archived and not r.fork and r.size > 0][
+        :max_checks
+    ]
 
     def work(repo: Repository) -> WorkflowRunSummary | None:
         try:
-            data = gh.api(
-                f"/repos/{repo.full_name}/actions/runs?per_page=1&status=completed"
-            )
+            data = gh.api(f"/repos/{repo.full_name}/actions/runs?per_page=1&status=completed")
         except gh.GhError as exc:
             message = str(exc).lower()
             if "404" in message or "403" in message or "disabled" in message:
@@ -306,11 +300,11 @@ def _check_homepages(
         list(pool.map(check, targets))
 
 
-def _search_items(query: str, *, warnings: list[CollectionWarning], code: str) -> list[dict[str, Any]]:
+def _search_items(
+    query: str, *, warnings: list[CollectionWarning], code: str
+) -> list[dict[str, Any]]:
     try:
-        data = gh.api(
-            f"/search/issues?q={_url_quote(query)}&per_page=50&sort=updated"
-        )
+        data = gh.api(f"/search/issues?q={_url_quote(query)}&per_page=50&sort=updated")
     except gh.GhError as exc:
         warnings.append(CollectionWarning(code=code, message=str(exc)))
         return []

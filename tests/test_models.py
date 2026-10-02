@@ -57,7 +57,15 @@ def test_group_counts():
 
 def test_days_since():
     assert days_since(None) is None
-    assert days_since("2026-09-01T00:00:00Z", now=__import__("datetime").datetime(2026, 9, 29, tzinfo=__import__("datetime").timezone.utc)) == 28
+    assert (
+        days_since(
+            "2026-09-01T00:00:00Z",
+            now=__import__("datetime").datetime(
+                2026, 9, 29, tzinfo=__import__("datetime").timezone.utc
+            ),
+        )
+        == 28
+    )
 
 
 def test_repo_from_api_like_dict():

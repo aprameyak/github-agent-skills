@@ -209,9 +209,7 @@ class AccountSnapshot:
             PullRequestSummary(**_filter_fields(PullRequestSummary, p))
             for p in data.get("pull_requests", [])
         ]
-        issues = [
-            IssueSummary(**_filter_fields(IssueSummary, i)) for i in data.get("issues", [])
-        ]
+        issues = [IssueSummary(**_filter_fields(IssueSummary, i)) for i in data.get("issues", [])]
         workflows = [
             WorkflowRunSummary(**_filter_fields(WorkflowRunSummary, w))
             for w in data.get("workflow_runs", [])

@@ -48,7 +48,9 @@ def format_checkup(report: FindingsReport, snapshot: AccountSnapshot) -> str:
     # For large accounts, keep the human summary tight
     limit = 8 if repo_count >= 40 else 12
 
-    lines.append(f"I found {len(findings)} thing{'s' if len(findings) != 1 else ''} worth looking at:")
+    lines.append(
+        f"I found {len(findings)} thing{'s' if len(findings) != 1 else ''} worth looking at:"
+    )
     lines.append("")
     quick = report.summary.get("quick_fixes", 0)
     docs = report.summary.get("documentation_gaps", 0)
@@ -67,7 +69,9 @@ def format_checkup(report: FindingsReport, snapshot: AccountSnapshot) -> str:
     if failed:
         bullets.append(f"{failed} failed automated build{'s' if failed != 1 else ''}")
     if attention:
-        bullets.append(f"{attention} attention item{'s' if attention != 1 else ''} (see github-today)")
+        bullets.append(
+            f"{attention} attention item{'s' if attention != 1 else ''} (see github-today)"
+        )
     if not bullets:
         bullets.append(f"{len(findings)} note{'s' if len(findings) != 1 else ''}")
     for bullet in bullets:
@@ -101,7 +105,9 @@ def format_cleanup(report: FindingsReport) -> str:
         lines.append("I didn't find obvious cleanup candidates with the current checks.")
         lines.append("Nothing looked empty, abandoned, or confusing enough to flag.")
         return "\n".join(lines) + "\n"
-    lines.append(f"I found {len(cleanup)} item{'s' if len(cleanup) != 1 else ''} to consider reviewing:")
+    lines.append(
+        f"I found {len(cleanup)} item{'s' if len(cleanup) != 1 else ''} to consider reviewing:"
+    )
     lines.append("")
     lines.append("I'm not recommending deletion — only a closer look.")
     lines.append("")
@@ -251,11 +257,7 @@ def format_auth(status: Any) -> str:
             f"- Protocol: {status.protocol or 'unknown'}\n"
             f"- Scopes: {scopes}\n"
         )
-    return (
-        "GitHub CLI is not authenticated.\n"
-        f"{status.message}\n"
-        "Run: gh auth login\n"
-    )
+    return f"GitHub CLI is not authenticated.\n{status.message}\nRun: gh auth login\n"
 
 
 def format_snapshot_brief(snapshot: AccountSnapshot) -> str:
