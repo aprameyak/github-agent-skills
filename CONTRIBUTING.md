@@ -1,7 +1,5 @@
 # Contributing
 
-Thanks for helping make GitHub more approachable for every kind of builder.
-
 ## Development setup
 
 ```bash
@@ -11,6 +9,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
 github-agent --version
+ruff check .
 pytest
 ```
 
@@ -27,17 +26,16 @@ Or use `./install.sh`, which creates `.venv` and links `github-agent` into `~/.l
 ## Contribution ideas
 
 - New analyzers with clear evidence
-- Better beginner-friendly copy
+- Clearer beginner-facing copy
 - Additional fixtures / edge cases
-- Agent adapter improvements
-- New skills that reuse the shared intelligence layer (see `docs/contributing-skills.md`)
+- New skills that reuse collectors/analyzers (see `docs/contributing-skills.md`)
 
-## Rules of the road
+## Rules
 
 1. Prefer deterministic checks over prompts for objective facts.
 2. Every finding needs evidence.
 3. No repository deletion, force-push, or silent archival.
-4. Do not commit personal dogfood snapshots or tokens.
+4. Do not commit personal snapshots or tokens.
 5. Keep dependencies minimal (stdlib by default).
 6. Add tests for analyzer and CLI changes.
 
@@ -46,7 +44,3 @@ Or use `./install.sh`, which creates `.venv` and links `github-agent` into `~/.l
 - Keep PRs focused
 - Include tests when behavior changes
 - Update docs when user-facing behavior changes
-
-## Code of conduct expectation
-
-Be kind. This project is for students, hobbyists, designers, and professionals alike.

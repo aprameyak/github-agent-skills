@@ -48,7 +48,7 @@ def main(argv: list[str] | None = None) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="github-agent",
-        description="Local-first GitHub intelligence for CLI coding agents.",
+        description="Inspect and tidy a GitHub account using your existing gh auth.",
     )
     parser.add_argument("--version", action="version", version=f"github-agent {__version__}")
 

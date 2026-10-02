@@ -174,8 +174,5 @@ cat <<'EOF'
 Next steps:
   1. gh auth login          # if needed
   2. github-agent auth-check
-  3. Ask your coding agent: "Check my GitHub."
-
-Skills are portable SKILL.md packages. This installer places/symlinks them into
-agent skill directories. No GitHub credentials leave your machine.
+  3. github-agent checkup
 EOF
