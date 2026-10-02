@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from github_agent.models.findings import Finding, FindingsReport, group_counts
-from github_agent.models.account import Repository, days_since, utc_now_iso
 from github_agent.actions import apply_metadata_update
+from github_agent.models.account import Repository, days_since, utc_now_iso
+from github_agent.models.findings import Finding, FindingsReport, group_counts
 
 
 def test_finding_roundtrip():

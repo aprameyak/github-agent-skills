@@ -87,8 +87,8 @@ def format_checkup(report: FindingsReport, snapshot: AccountSnapshot) -> str:
     remaining = max(0, len(findings) - min(limit, len(spotlight)))
     if remaining:
         lines.append(
-            f"…plus more detail available via `github-agent fix`, "
-            f"`github-agent cleanup`, and `github-agent today`."
+            "…plus more detail available via `github-agent fix`, "
+            "`github-agent cleanup`, and `github-agent today`."
         )
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
@@ -266,8 +266,10 @@ def format_snapshot_brief(snapshot: AccountSnapshot) -> str:
     lines = [
         f"Snapshot for @{snapshot.viewer_login}",
         f"Collected at: {snapshot.collected_at}",
-        f"Repositories: {len(snapshot.repositories)} "
-        f"({len(owned)} owned, {len(forks)} forks, {len(archived)} archived)",
+        (
+            f"Repositories: {len(snapshot.repositories)} "
+            f"({len(owned)} owned, {len(forks)} forks, {len(archived)} archived)"
+        ),
         f"Open review/own PRs tracked: {len(snapshot.pull_requests)}",
         f"Assigned issues tracked: {len(snapshot.issues)}",
         f"Failed workflows tracked: {len(snapshot.workflow_runs)}",

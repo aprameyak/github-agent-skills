@@ -6,7 +6,8 @@ import base64
 import concurrent.futures
 import re
 import sys
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -22,7 +23,6 @@ from github_agent.models.account import (
     WorkflowRunSummary,
     utc_now_iso,
 )
-
 
 ProgressCallback = Callable[[str], None]
 
@@ -180,7 +180,7 @@ def _fetch_readme(
         try:
             decoded = base64.b64decode(content).decode("utf-8", errors="replace")
             preview = decoded[:800]
-        except Exception:
+        except (ValueError, UnicodeError):
             preview = None
     return True, preview
 
@@ -281,7 +281,7 @@ def _check_homepages(
         url = (repo.homepage or "").strip()
         if not url:
             return
-        if not re.match(r"^https?://", url, re.I):
+        if not re.match(r"^https?://", url, re.IGNORECASE):
             url = "https://" + url
         try:
             req = Request(url, method="HEAD", headers={"User-Agent": "github-agent-skills/0.1"})
@@ -367,7 +367,7 @@ def _collect_attention_items(
             continue
         seen_prs.add(key)
         labels = [lbl.get("name") for lbl in (item.get("labels") or []) if isinstance(lbl, dict)]
-        repo = _repo_from_url((item.get("repository_url")))
+        repo = _repo_from_url(item.get("repository_url"))
         is_review = item in review_items
         prs.append(
             PullRequestSummary(

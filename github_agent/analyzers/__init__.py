@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
+from collections.abc import Iterable
 from datetime import datetime, timezone
-from typing import Iterable
 
 from github_agent.models.account import AccountSnapshot, Repository, days_since, utc_now_iso
 from github_agent.models.findings import (
@@ -14,7 +14,6 @@ from github_agent.models.findings import (
     group_counts,
     sort_findings,
 )
-
 
 VERSION_SUFFIX_RE = re.compile(
     r"^(?P<base>.+?)[-_]?(?:v?\d+|final|copy|new|old|backup|test|wip)$",
@@ -235,27 +234,27 @@ def analyze_presentation(snapshot: AccountSnapshot) -> list[Finding]:
             and repo.stargazers_count >= 1
             and not repo.license_spdx
             and repo.license_spdx != "NOASSERTION"
+            and repo.size > 5
+            and repo.has_readme is not False
         ):
-            # Only suggest license for non-empty public projects that look intentional
-            if repo.size > 5 and repo.has_readme is not False:
-                findings.append(
-                    Finding(
-                        id=f"missing-license:{repo.name}",
-                        category="presentation",
-                        severity="info",
-                        confidence="medium",
-                        repository=repo.name,
-                        title=f"“{repo.name}” has no license file detected",
-                        explanation=(
-                            "Public projects without a license can be harder for others "
-                            "to reuse. Only add one if you intend to share the work."
-                        ),
-                        evidence={"license": repo.license_spdx, "visibility": repo.visibility},
-                        recommended_action="consider_license",
-                        risk="medium",
-                        tags=["license"],
-                    )
+            findings.append(
+                Finding(
+                    id=f"missing-license:{repo.name}",
+                    category="presentation",
+                    severity="info",
+                    confidence="medium",
+                    repository=repo.name,
+                    title=f"“{repo.name}” has no license file detected",
+                    explanation=(
+                        "Public projects without a license can be harder for others "
+                        "to reuse. Only add one if you intend to share the work."
+                    ),
+                    evidence={"license": repo.license_spdx, "visibility": repo.visibility},
+                    recommended_action="consider_license",
+                    risk="medium",
+                    tags=["license"],
                 )
+            )
 
     return findings
 
@@ -372,9 +371,9 @@ def analyze_cleanup(snapshot: AccountSnapshot, *, now: datetime) -> list[Finding
             if other.archived or other.name == repo.name:
                 continue
             left, right = repo.name.lower(), other.name.lower()
-            if right.startswith(left + "-") or right.startswith(left + "_"):
+            if right.startswith((left + "-", left + "_")):
                 suffix = right[len(left) + 1 :]
-                if re.fullmatch(r"(?:v?\d+|final|copy|new|old|backup|test|wip)(?:[-_].+)?", suffix, re.I):
+                if re.fullmatch(r"(?:v?\d+|final|copy|new|old|backup|test|wip)(?:[-_].+)?", suffix, re.IGNORECASE):
                     groups[left].add(repo.name)
                     groups[left].add(other.name)
 
@@ -742,9 +741,7 @@ def _similar_names(a: str, b: str) -> bool:
         if x != y:
             break
         prefix += 1
-    if prefix >= 6 and abs(len(left) - len(right)) <= 2:
-        return True
-    return False
+    return prefix >= 6 and abs(len(left) - len(right)) <= 2
 
 
 def _dedupe(findings: list[Finding]) -> list[Finding]:

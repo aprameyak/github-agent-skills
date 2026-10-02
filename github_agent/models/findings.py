@@ -5,7 +5,6 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from typing import Any, Literal
 
-
 Severity = Literal["info", "suggestion", "attention", "urgent"]
 Confidence = Literal["low", "medium", "high"]
 Risk = Literal["read_only", "low", "medium", "high", "forbidden"]

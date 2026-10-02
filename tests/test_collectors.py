@@ -5,8 +5,8 @@ from __future__ import annotations
 import json
 from unittest.mock import patch
 
-from github_agent.gh import AuthStatus, _api_paginate
 from github_agent.collectors import _normalize_event, _repo_from_url
+from github_agent.gh import AuthStatus, _api_paginate
 
 
 def test_repo_from_url():

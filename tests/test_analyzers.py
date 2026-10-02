@@ -6,12 +6,10 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-import pytest
-
+from github_agent.actions import FORBIDDEN_ACTIONS, proposal_from_finding
 from github_agent.analyzers import analyze, build_recap
 from github_agent.models.account import AccountSnapshot
 from github_agent.models.findings import Finding, sort_findings
-from github_agent.actions import proposal_from_finding, FORBIDDEN_ACTIONS
 
 FIX = Path(__file__).resolve().parent / "fixtures"
 NOW = datetime(2026, 9, 29, tzinfo=timezone.utc)
